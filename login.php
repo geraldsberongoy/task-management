@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <input name="email" type="email" required placeholder="Email" 
                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"><br>
-        <input name="password" type="password" required placeholder="Password" 
+        <input type="password" name="password" type="password" required placeholder="Password" 
                minlength="6"><br>
         <button type="submit">Login</button>
     </form>

@@ -19,3 +19,4 @@ echo "<h2>Admin Dashboard</h2>";
 echo "<a href='add_users.php'>Manage Users</a><br>";
 echo "<a href='?logout=1'>Logout</a><br>";
 echo "<a href='show_users.php'>View Users</a><br>";
+echo "<a href='manage_classroom.php'>Make Classroom</a><br>";
