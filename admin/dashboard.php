@@ -7,7 +7,7 @@ require_once '../config/database.php';
 $auth = new Auth($pdo);
 
 if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 1) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
     exit;
 }
 

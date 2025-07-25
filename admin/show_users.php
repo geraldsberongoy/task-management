@@ -20,6 +20,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Show Users</title>
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
     <h1>Users List</h1>
     <a href="add_users.php">Add New User</a>
@@ -35,16 +36,16 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </thead>
         <tbody>
             <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?php echo htmlspecialchars($user['id']); ?></td>
-                <td><?php echo htmlspecialchars($user['name']); ?></td>
-                <td><?php echo htmlspecialchars($user['email']); ?></td>
-                <td><?php echo htmlspecialchars($user['role_id'] == 1 ? 'Admin' : ($user['role_id'] == 2 ? 'Teacher' : 'Student')); ?></td>
-                <td>
-                    <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
-                    <a href="delete_user.php?id=<?php echo $user['id']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
-                </td>
-            </tr>
+                <tr>
+                    <td><?php echo htmlspecialchars($user['id']); ?></td>
+                    <td><?php echo htmlspecialchars($user['name']); ?></td>
+                    <td><?php echo htmlspecialchars($user['email']); ?></td>
+                    <td><?php echo htmlspecialchars($user['role_id'] == 1 ? 'Admin' : ($user['role_id'] == 2 ? 'Teacher' : 'Student')); ?></td>
+                    <td>
+                        <a href="edit_user.php?id=<?php echo $user['id']; ?>">Edit</a> |
+                        <a href="delete_user.php?id=<?php echo $user['id']; ?>" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
             <?php endforeach; ?>
         </tbody>
     </table>

@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['user']['role_id'] != 3) {
-    header("Location: ../public/login.php");
+    header("Location: ../index.php");
     exit;
 }
 echo "<h2>Student Dashboard</h2>";

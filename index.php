@@ -8,48 +8,49 @@ $auth = new Auth($pdo);
 
 // Generate CSRF Token
 if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    try {
-        // Validate CSRF token
-        if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
-            throw new Exception("CSRF token validation failed");
-        }
-
-        // Get and sanitize input
-        $email = filter_var($_POST["email"] ?? '', FILTER_SANITIZE_EMAIL);
-        $password = $_POST["password"] ?? '';
-
-        // Validate input
-        $errors = $auth->validateLoginInput($email, $password);
-        
-        if (empty($errors)) {
-            // Authenticate user
-            $user = $auth->authenticateUser($email, $password);
-            
-            if ($user) {
-                // Create session and redirect
-                $auth->createUserSession($user);
-                $auth->redirectBasedOnRole($user['role_id']);
-            } else {
-                $error = "Invalid login credentials.";
-            }
-        } else {
-            $error = implode('<br>', $errors);
-        }
-    } catch (Exception $e) {
-        $error = $e->getMessage();
+  try {
+    // Validate CSRF token
+    if (!hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'] ?? '')) {
+      throw new Exception("CSRF token validation failed");
     }
+
+    // Get and sanitize input
+    $email = filter_var($_POST["email"] ?? '', FILTER_SANITIZE_EMAIL);
+    $password = $_POST["password"] ?? '';
+
+    // Validate input
+    $errors = $auth->validateLoginInput($email, $password);
+
+    if (empty($errors)) {
+      // Authenticate user
+      $user = $auth->authenticateUser($email, $password);
+
+      if ($user) {
+        // Create session and redirect
+        $auth->createUserSession($user);
+        $auth->redirectBasedOnRole($user['role_id']);
+      } else {
+        $error = "Invalid login credentials.";
+      }
+    } else {
+      $error = implode('<br>', $errors);
+    }
+  } catch (Exception $e) {
+    $error = $e->getMessage();
+  }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Task Management LMS</title>
   <style>
     :root {
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       box-sizing: border-box;
     }
 
-body {
+    body {
       font-family: 'Arial', sans-serif;
       background: url('https://i.imgur.com/3D8NQAI.jpeg') center/cover no-repeat;
       color: #333;
@@ -76,17 +77,22 @@ body {
       position: relative;
     }
 
-body::before {
+    body::before {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.35);
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.35);
       z-index: 0;
       pointer-events: none;
       filter: brightness(0.85);
     }
 
-main, header, footer {
+    main,
+    header,
+    footer {
       position: relative;
       z-index: 1;
     }
@@ -131,7 +137,7 @@ main, header, footer {
       background: #fff;
       padding: 32px 28px;
       border-radius: 12px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.07);
       min-width: 250px;
       max-width: 300px;
       align-items: center;
@@ -181,7 +187,7 @@ main, header, footer {
       width: 120px;
       height: auto;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       background: #fff;
       padding: 10px;
     }
@@ -194,6 +200,7 @@ main, header, footer {
     }
   </style>
 </head>
+
 <body>
 
   <header>
@@ -203,15 +210,15 @@ main, header, footer {
 
   <main>
     <div class="main-flex">
-      
 
-      <form class="login-form" method="POST" action="login.php" autocomplete="off">
+
+      <form class="login-form" method="POST" autocomplete="off">
         <img src="https://www.pup.edu.ph/resources/images/logo.png" alt="PUP Logo" class="pup-logo" />
         <h3>Login</h3>
         <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
         <input type="email" name="email" placeholder="Email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
-        <input type="password" name="password" type="password" required placeholder="Password" minlength="6"><br>        
-        <button type="submit">Login</button>     
+        <input type="password" name="password" type="password" required placeholder="Password" minlength="6"><br>
+        <button type="submit">Login</button>
       </form>
     </div>
   </main>
@@ -221,4 +228,5 @@ main, header, footer {
   </footer>
 
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$db = 'classroom_db'; 
+$db = 'classroom_db';
 $user = 'root';
 $pass = '';
 $dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";

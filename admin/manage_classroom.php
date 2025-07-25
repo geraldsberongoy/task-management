@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $description = trim($_POST['description']);
     $teacher_id = $_POST['teacher_id'] ?? null;
-    
+
     // For edit action, get ID from POST
     if ($action === 'edit') {
         $id = $_POST['id'] ?? null;
@@ -66,6 +66,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,7 +82,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
 
         /* Modal Styles */
         .modal {
-            display: none; /* Hide it initially */
+            display: none;
+            /* Hide it initially */
             position: fixed;
             z-index: 1000;
             top: 0;
@@ -93,6 +95,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             justify-content: center;
             align-items: center;
         }
+
         .modal.show {
             display: flex;
         }
@@ -104,7 +107,8 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             width: 600px;
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin: 0; /* Remove auto centering, flex handles it */
+            margin: 0;
+            /* Remove auto centering, flex handles it */
         }
 
         .close-modal {
@@ -119,7 +123,7 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
         .close-modal:hover {
             color: var(--primary-red);
         }
-        
+
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -139,12 +143,14 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             margin: 0 auto 30px;
         }
 
-        input[type="text"], textarea, select {
+        input[type="text"],
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
@@ -197,12 +203,13 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -261,7 +268,6 @@ if (isset($_GET['success']) && $_GET['success'] == 1) {
                 closeEditModal();
             }
         }
-
     </script>
 </head>
 <?php
@@ -276,7 +282,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name']);
     $description = trim($_POST['description']);
     $teacher_id = $_POST['teacher_id'] ?? null;
-    
+
     // For edit action, get ID from POST
     if ($action === 'edit') {
         $id = $_POST['id'] ?? null;
@@ -320,18 +326,18 @@ if ($action === 'delete' && $id) {
         <?php if (isset($error)): ?>
             <div class="error"><?php echo htmlspecialchars($error); ?></div>
         <?php endif; ?>
-        
+
         <div class="form-group">
             <label for="name">Classroom Name:</label>
-            <input type="text" name="name" id="name" placeholder="Enter classroom name" required 
+            <input type="text" name="name" id="name" placeholder="Enter classroom name" required
                 value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>">
         </div>
 
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea name="description" id="description" placeholder="Enter classroom description" required><?php 
-                echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : ''; 
-            ?></textarea>
+            <textarea name="description" id="description" placeholder="Enter classroom description" required><?php
+                                                                                                                echo isset($_POST['description']) ? htmlspecialchars($_POST['description']) : '';
+                                                                                                                ?></textarea>
         </div>
 
         <div class="form-group">
@@ -364,7 +370,7 @@ if ($action === 'delete' && $id) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     $classrooms = $classroom->listClassrooms();
                     foreach ($classrooms as $room):
                         $teacher = $classroom->getTeacherById($room['teacher_id']);
@@ -378,11 +384,11 @@ if ($action === 'delete' && $id) {
                                 <button onclick="openEditModal('<?php echo $room['id']; ?>', 
                                     '<?php echo htmlspecialchars($room['name'], ENT_QUOTES); ?>', 
                                     '<?php echo htmlspecialchars($room['description'], ENT_QUOTES); ?>', 
-                                    '<?php echo $room['teacher_id']; ?>')" 
+                                    '<?php echo $room['teacher_id']; ?>')"
                                     class="btn-edit">Edit</button>
-                                <a href="?action=delete&id=<?php echo $room['id']; ?>" 
-                                   class="btn-delete"
-                                   onclick="return confirm('Are you sure you want to delete this classroom?')">Delete</a>
+                                <a href="?action=delete&id=<?php echo $room['id']; ?>"
+                                    class="btn-delete"
+                                    onclick="return confirm('Are you sure you want to delete this classroom?')">Delete</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -399,7 +405,7 @@ if ($action === 'delete' && $id) {
         <h2>Edit Classroom</h2>
         <form method="POST" action="?action=edit">
             <input type="hidden" id="edit_classroom_id" name="id">
-            
+
             <div class="form-group">
                 <label for="edit_name">Classroom Name:</label>
                 <input type="text" name="name" id="edit_name" required>
@@ -427,4 +433,5 @@ if ($action === 'delete' && $id) {
     </div>
 </div>
 </body>
+
 </html>
